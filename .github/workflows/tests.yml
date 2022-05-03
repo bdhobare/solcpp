@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: [main]
+    branches: [main, health-components-1]
   pull_request:
     branches: [main]
 jobs:
