@@ -61,7 +61,8 @@ struct MangoAccount {
    * @param mangoGroup
    * @param mangoCache
    */
-  auto getHealthComponents(const MangoGroup& mangoGroup, const MangoCache& mangoCache) {
+  auto getHealthComponents(const MangoGroup& mangoGroup,
+                           const MangoCache& mangoCache) {
     std::vector<double> spot(mangoGroup.numOracles, 0);
     std::vector<double> perps(mangoGroup.numOracles, 0);
     auto quote = getNet(mangoCache.root_bank_cache[QUOTE_INDEX], QUOTE_INDEX);
@@ -117,9 +118,8 @@ struct MangoAccount {
           quote += quotePos;
           perps[i] = bidsBaseNet;
         } else {
-          const auto quotePos =
-              getQuotePosition(perpAccount, perpMarketCache) + takerQuote +
-              (asksQuantity * price);
+          const auto quotePos = getQuotePosition(perpAccount, perpMarketCache) +
+                                takerQuote + (asksQuantity * price);
           quote += quotePos;
           perps[i] = asksBaseNet;
         }
@@ -130,7 +130,8 @@ struct MangoAccount {
     }
     return std::make_tuple(spot, perps, quote);
   }
-  double getHealthFromComponents(const MangoGroup& mangoGroup, const MangoCache& mangoCache,
+  double getHealthFromComponents(const MangoGroup& mangoGroup,
+                                 const MangoCache& mangoCache,
                                  std::vector<double> spot,
                                  std::vector<double> perps, double quote,
                                  HealthType healthType) {
@@ -197,8 +198,8 @@ struct MangoAccount {
     }
     return std::make_pair(assets, liabs);
   }
-  double getHealthRatio(const MangoGroup& mangoGroup, const MangoCache& mangoCache,
-                        HealthType healthType) {
+  double getHealthRatio(const MangoGroup& mangoGroup,
+                        const MangoCache& mangoCache, HealthType healthType) {
     auto [spot, perps, quote] = getHealthComponents(mangoGroup, mangoCache);
     auto [assets, liabs] = getWeightedAssetsLiabsVals(
         mangoGroup, mangoCache, spot, perps, quote, healthType);
@@ -209,18 +210,21 @@ struct MangoAccount {
     }
   }
 
-  bool isLiquidatable(const MangoGroup& mangoGroup, const MangoCache& mangoCache) {
+  bool isLiquidatable(const MangoGroup& mangoGroup,
+                      const MangoCache& mangoCache) {
     auto initHealth = getHealth(mangoGroup, mangoCache, HealthType::Init);
     auto maintHealth = getHealth(mangoGroup, mangoCache, HealthType::Maint);
     return ((mangoAccountInfo.beingLiquidated && initHealth < 0) ||
             (maintHealth < 0));
   }
-  double computeValue(const MangoGroup& mangoGroup, const MangoCache& mangoCache) {
+  double computeValue(const MangoGroup& mangoGroup,
+                      const MangoCache& mangoCache) {
     auto a = getAssetsVal(mangoGroup, mangoCache, HealthType::Unknown);
     auto b = getLiabsVal(mangoGroup, mangoCache, HealthType::Unknown);
     return a - b;
   }
-  double getLeverage(const MangoGroup& mangoGroup, const MangoCache& mangoCache) {
+  double getLeverage(const MangoGroup& mangoGroup,
+                     const MangoCache& mangoCache) {
     auto liabs = getLiabsVal(mangoGroup, mangoCache, HealthType::Unknown);
     auto assets = getAssetsVal(mangoGroup, mangoCache, HealthType::Unknown);
     if (assets > 0) {
@@ -228,8 +232,8 @@ struct MangoAccount {
     }
     return 0;
   }
-  double getAssetsVal(const MangoGroup& mangoGroup, const MangoCache& mangoCache,
-                      HealthType healthType) {
+  double getAssetsVal(const MangoGroup& mangoGroup,
+                      const MangoCache& mangoCache, HealthType healthType) {
     double assetsVal = 0;
     // quote currency deposits
     assetsVal += getUiDeposit(mangoCache.root_bank_cache[QUOTE_INDEX],
@@ -258,8 +262,8 @@ struct MangoAccount {
   double getLiabsVal(const MangoGroup& mangoGroup, const MangoCache& mangoCache,
                      HealthType healthType) {
     double liabsVal = 0;
-    liabsVal += getUiBorrow(mangoCache.root_bank_cache[QUOTE_INDEX],
-                            mangoGroup, QUOTE_INDEX);
+    liabsVal += getUiBorrow(mangoCache.root_bank_cache[QUOTE_INDEX], mangoGroup,
+                            QUOTE_INDEX);
     for (uint64_t i = 0; i < mangoGroup.numOracles; ++i) {
       double liabWeight = 1;
       auto price = getMangoGroupPrice(mangoGroup, i, mangoCache);
@@ -281,23 +285,24 @@ struct MangoAccount {
     }
     return liabsVal;
   }
-  double getUiBorrow(const RootBankCache& rootBankCache, const MangoGroup& mangoGroup,
-                      uint64_t tokenIndex) {
+  double getUiBorrow(const RootBankCache& rootBankCache,
+                     const MangoGroup& mangoGroup, uint64_t tokenIndex) {
     return nativeI80F48ToUi(
         ceil(getNativeBorrow(rootBankCache, mangoGroup, tokenIndex)),
         getMangoGroupTokenDecimals(mangoGroup, tokenIndex));
   }
-  double getNativeBorrow(const RootBankCache& rootBankCache, const MangoGroup& mangoGroup,
-                         uint64_t tokenIndex) {
+  double getNativeBorrow(const RootBankCache& rootBankCache,
+                         const MangoGroup& mangoGroup, uint64_t tokenIndex) {
     return rootBankCache.borrow_index.toDouble() *
            mangoAccountInfo.borrows[tokenIndex].toDouble();
   }
-  double getNativeDeposit(const RootBankCache& rootBankCache, uint64_t tokenIndex) {
+  double getNativeDeposit(const RootBankCache& rootBankCache,
+                          uint64_t tokenIndex) {
     return rootBankCache.deposit_index.toDouble() *
            mangoAccountInfo.deposits[tokenIndex].toDouble();
   }
-  double getUiDeposit(const RootBankCache& rootBankCache, const MangoGroup& mangoGroup,
-                      uint64_t tokenIndex) {
+  double getUiDeposit(const RootBankCache& rootBankCache,
+                      const MangoGroup& mangoGroup, uint64_t tokenIndex) {
     auto result =
         nativeI80F48ToUi(floor(getNativeDeposit(rootBankCache, tokenIndex)),
                          getMangoGroupTokenDecimals(mangoGroup, tokenIndex));

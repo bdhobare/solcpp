@@ -11,8 +11,7 @@ auto splitOpenOrders(const serum_v3::OpenOrders& openOrders) {
   const auto quoteLocked =
       (openOrders.quoteTokenTotal - openOrders.quoteTokenFree);
   const auto baseFree = openOrders.baseTokenFree;
-  const auto baseLocked =
-      openOrders.baseTokenTotal - openOrders.baseTokenFree;
+  const auto baseLocked = openOrders.baseTokenTotal - openOrders.baseTokenFree;
   return std::make_tuple(quoteFree, quoteLocked, baseFree, baseLocked);
 }
 double getUnsettledFunding(const PerpAccountInfo& accountInfo,
@@ -42,11 +41,10 @@ double getQuotePosition(const PerpAccountInfo& accountInfo,
 auto getMangoGroupWeights(const MangoGroup& mangoGroup, uint64_t marketIndex,
                           HealthType healthType = HealthType::Unknown) {
   if (healthType == HealthType::Maint) {
-    return std::make_tuple(
-        mangoGroup.spotMarkets[marketIndex].maintAssetWeight,
-        mangoGroup.spotMarkets[marketIndex].maintLiabWeight,
-        mangoGroup.perpMarkets[marketIndex].maintAssetWeight,
-        mangoGroup.perpMarkets[marketIndex].maintLiabWeight);
+    return std::make_tuple(mangoGroup.spotMarkets[marketIndex].maintAssetWeight,
+                           mangoGroup.spotMarkets[marketIndex].maintLiabWeight,
+                           mangoGroup.perpMarkets[marketIndex].maintAssetWeight,
+                           mangoGroup.perpMarkets[marketIndex].maintLiabWeight);
   } else if (healthType == HealthType::Init) {
     return std::make_tuple(mangoGroup.spotMarkets[marketIndex].initAssetWeight,
                            mangoGroup.spotMarkets[marketIndex].initLiabWeight,
@@ -60,8 +58,9 @@ double nativeI80F48ToUi(double amount, uint8_t decimals) {
   return amount / pow(10, decimals);
 }
 double getPerpAccountAssetVal(const PerpAccountInfo& perpAccountInfo,
-                              const PerpMarketInfo& perpMarketInfo, double price,
-                              double shortFunding, double longFunding) {
+                              const PerpMarketInfo& perpMarketInfo,
+                              double price, double shortFunding,
+                              double longFunding) {
   double assetsVal = 0;
   if (perpAccountInfo.basePosition > 0) {
     assetsVal +=
@@ -86,8 +85,9 @@ double getPerpAccountAssetVal(const PerpAccountInfo& perpAccountInfo,
   return assetsVal;
 }
 double getPerpAccountLiabsVal(const PerpAccountInfo& perpAccountInfo,
-                              const PerpMarketInfo& perpMarketInfo, double price,
-                              double shortFunding, double longFunding) {
+                              const PerpMarketInfo& perpMarketInfo,
+                              double price, double shortFunding,
+                              double longFunding) {
   double liabsVal = 0;
   if (perpAccountInfo.basePosition < 0) {
     liabsVal +=
@@ -115,7 +115,8 @@ double getPerpAccountLiabsVal(const PerpAccountInfo& perpAccountInfo,
  * If it's not QUOTE_INDEX and there is an oracle for this index but no
  * SPL-Token, this will default to 6 Otherwise throw error
  */
-uint8_t getMangoGroupTokenDecimals(const MangoGroup& mangoGroup, uint64_t tokenIndex) {
+uint8_t getMangoGroupTokenDecimals(const MangoGroup& mangoGroup,
+                                   uint64_t tokenIndex) {
   const auto tokenInfo = mangoGroup.tokens[tokenIndex];
   if (tokenInfo.decimals == 0) {
     if (mangoGroup.oracles[tokenIndex] == solana::PublicKey::empty()) {
