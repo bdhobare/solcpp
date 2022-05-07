@@ -17,17 +17,17 @@ int main() {
   auto cache = connection.getAccountInfo<mango_v3::MangoCache>(
       group.mangoCache.toBase58());
   auto maintHealth =
-      mangoAccount.getHealth(&group, &cache, mango_v3::HealthType::Maint);
+      mangoAccount.getHealth(group, cache, mango_v3::HealthType::Maint);
   auto initHealth =
-      mangoAccount.getHealth(&group, &cache, mango_v3::HealthType::Init);
+      mangoAccount.getHealth(group, cache, mango_v3::HealthType::Init);
   auto maintHealthRatio =
-      mangoAccount.getHealthRatio(&group, &cache, mango_v3::HealthType::Maint);
+      mangoAccount.getHealthRatio(group, cache, mango_v3::HealthType::Maint);
   spdlog::info("MangoAccount: {}", accountPubkey);
   spdlog::info("Owner: {}", mangoAccountInfo.owner.toBase58());
   spdlog::info("Maint Health Ratio: {:.4f}", maintHealthRatio);
   spdlog::info("Maint Health: {:.4f}", maintHealth);
   spdlog::info("Init Health: {:.4f}", initHealth);
-  spdlog::info("Equity: {:.4f}", mangoAccount.computeValue(&group, &cache));
+  spdlog::info("Equity: {:.4f}", mangoAccount.computeValue(group, cache));
   spdlog::info("isBankrupt: {}", mangoAccount.mangoAccountInfo.isBankrupt);
   spdlog::info("beingLiquidated: {}",
                mangoAccount.mangoAccountInfo.beingLiquidated);
