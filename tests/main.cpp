@@ -146,11 +146,11 @@ TEST_CASE("Empty MangoAccount") {
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
-//  auto mangoCache =
-//      solana::rpc::fromFile<mango_v3::MangoCache>(path + "/cache.json");
-//  auto initHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
-//                                           mango_v3::HealthType::Init);
-//  CHECK_EQ(initHealth, 0);
+  auto mangoCache =
+      solana::rpc::fromFile<mango_v3::MangoCache>(path + "/cache.json");
+  auto initHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
+                                           mango_v3::HealthType::Init);
+  CHECK_EQ(initHealth, 0);
 //  auto maintHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
 //                                            mango_v3::HealthType::Maint);
 //  CHECK_EQ(maintHealth, 0);
