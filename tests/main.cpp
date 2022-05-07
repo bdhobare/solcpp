@@ -151,20 +151,20 @@ TEST_CASE("Empty MangoAccount") {
   auto initHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
                                            mango_v3::HealthType::Init);
   CHECK_EQ(initHealth, 0);
-//  auto maintHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
-//                                            mango_v3::HealthType::Maint);
-//  CHECK_EQ(maintHealth, 0);
-//  auto initRatio = mangoAccount.getHealthRatio(&mangoGroup, &mangoCache,
-//                                               mango_v3::HealthType::Init);
-//  CHECK_EQ(initRatio, 100);
-//  auto maintRatio = mangoAccount.getHealthRatio(&mangoGroup, &mangoCache,
-//                                                mango_v3::HealthType::Maint);
-//  CHECK_EQ(maintRatio, 100);
-//  auto value = mangoAccount.computeValue(&mangoGroup, &mangoCache);
-//  CHECK_EQ(value, 0);
-//  auto leverage = mangoAccount.getLeverage(&mangoGroup, &mangoCache);
-//  CHECK_EQ(leverage, 0);
-//  CHECK_FALSE(mangoAccount.isLiquidatable(&mangoGroup, &mangoCache));
+  //  auto maintHealth = mangoAccount.getHealth(&mangoGroup, &mangoCache,
+  //                                            mango_v3::HealthType::Maint);
+  //  CHECK_EQ(maintHealth, 0);
+  //  auto initRatio = mangoAccount.getHealthRatio(&mangoGroup, &mangoCache,
+  //                                               mango_v3::HealthType::Init);
+  //  CHECK_EQ(initRatio, 100);
+  //  auto maintRatio = mangoAccount.getHealthRatio(&mangoGroup, &mangoCache,
+  //                                                mango_v3::HealthType::Maint);
+  //  CHECK_EQ(maintRatio, 100);
+  //  auto value = mangoAccount.computeValue(&mangoGroup, &mangoCache);
+  //  CHECK_EQ(value, 0);
+  //  auto leverage = mangoAccount.getLeverage(&mangoGroup, &mangoCache);
+  //  CHECK_EQ(leverage, 0);
+  //  CHECK_FALSE(mangoAccount.isLiquidatable(&mangoGroup, &mangoCache));
 }
 
 TEST_CASE("1deposit") {
