@@ -13,7 +13,8 @@ int main() {
   mango_v3::MangoAccount mangoAccount =
       mango_v3::MangoAccount(mangoAccountInfo);
   auto openOrders = mangoAccount.loadOpenOrders(connection);
-  auto group = connection.getAccountInfo<mango_v3::MangoGroupInfo>(config.group);
+  auto group =
+      connection.getAccountInfo<mango_v3::MangoGroupInfo>(config.group);
   auto cache = connection.getAccountInfo<mango_v3::MangoCache>(
       group.mangoCache.toBase58());
   auto maintHealth =

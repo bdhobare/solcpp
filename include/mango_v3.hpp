@@ -210,7 +210,7 @@ struct RootBankInfo {
   i80f48 deposit_index;
   i80f48 borrow_index;
   i80f48 last_updated;
-  uint8_t padding[64]; /// used for future expansions
+  uint8_t padding[64];  /// used for future expansions
 };
 
 enum EventType : uint8_t { Fill, Out, Liquidate };

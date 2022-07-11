@@ -36,7 +36,8 @@ auto getQuotePosition(const PerpAccountInfo& accountInfo,
  * @return
  * <spotAssetWeight, spotLiabWeight,perpAssetWeight, perpLiabWeight>
  */
-auto getMangoGroupWeights(const MangoGroupInfo& mangoGroup, uint64_t marketIndex,
+auto getMangoGroupWeights(const MangoGroupInfo& mangoGroup,
+                          uint64_t marketIndex,
                           HealthType healthType = HealthType::Unknown) {
   if (healthType == HealthType::Maint) {
     return std::make_tuple(mangoGroup.spotMarkets[marketIndex].maintAssetWeight,

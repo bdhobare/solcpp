@@ -254,8 +254,8 @@ struct MangoAccount {
     }
     return assetsVal;
   }
-  i80f48 getLiabsVal(const MangoGroupInfo& mangoGroup, const MangoCache& mangoCache,
-                     HealthType healthType) {
+  i80f48 getLiabsVal(const MangoGroupInfo& mangoGroup,
+                     const MangoCache& mangoCache, HealthType healthType) {
     i80f48 liabsVal = 0L;
     liabsVal += getUiBorrow(mangoCache.root_bank_cache[QUOTE_INDEX], mangoGroup,
                             QUOTE_INDEX);
@@ -288,7 +288,8 @@ struct MangoAccount {
         getMangoGroupTokenDecimals(mangoGroup, tokenIndex));
   }
   i80f48 getNativeBorrow(const RootBankCache& rootBankCache,
-                         const MangoGroupInfo& mangoGroup, uint64_t tokenIndex) {
+                         const MangoGroupInfo& mangoGroup,
+                         uint64_t tokenIndex) {
     return rootBankCache.borrow_index * mangoAccountInfo.borrows[tokenIndex];
   }
   i80f48 getNativeDeposit(const RootBankCache& rootBankCache,
@@ -302,8 +303,9 @@ struct MangoAccount {
         getMangoGroupTokenDecimals(mangoGroup, tokenIndex));
     return result;
   }
-  i80f48 getSpotVal(const MangoGroupInfo& mangoGroup, const MangoCache& mangoCache,
-                    uint64_t index, i80f48 assetWeight) {
+  i80f48 getSpotVal(const MangoGroupInfo& mangoGroup,
+                    const MangoCache& mangoCache, uint64_t index,
+                    i80f48 assetWeight) {
     i80f48 assetsVal = 0L;
     auto price = getMangoGroupPrice(mangoGroup, index, mangoCache);
     auto depositVal =

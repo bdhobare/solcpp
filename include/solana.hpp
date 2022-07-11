@@ -268,13 +268,15 @@ class Connection {
   ///
   json getAccountInfoRequest(const std::string &account,
                              const std::string &encoding = "base64",
-                             const size_t offset = 0, const size_t length = 0) const;
+                             const size_t offset = 0,
+                             const size_t length = 0) const;
   json getMultipleAccountsRequest(const std::vector<std::string> &accounts,
                                   const std::string &encoding = "base64",
                                   const size_t offset = 0,
                                   const size_t length = 0) const;
-  json getBlockhashRequest(const std::string &commitment = "finalized",
-                           const std::string &method = "getRecentBlockhash") const;
+  json getBlockhashRequest(
+      const std::string &commitment = "finalized",
+      const std::string &method = "getRecentBlockhash") const;
   json sendTransactionRequest(
       const std::string &transaction, const std::string &encoding = "base58",
       bool skipPreflight = false,
@@ -284,7 +286,8 @@ class Connection {
   ///
   PublicKey getRecentBlockhash_DEPRECATED(
       const std::string &commitment = "finalized");
-  Blockhash getLatestBlockhash(const std::string &commitment = "finalized") const;
+  Blockhash getLatestBlockhash(
+      const std::string &commitment = "finalized") const;
   uint64_t getBlockHeight(const std::string &commitment = "finalized") const;
   json getSignatureStatuses(const std::vector<std::string> &signatures,
                             bool searchTransactionHistory = false) const;
@@ -295,7 +298,8 @@ class Connection {
   template <typename T>
   inline T getAccountInfo(const std::string &account,
                           const std::string &encoding = "base64",
-                          const size_t offset = 0, const size_t length = 0) const {
+                          const size_t offset = 0,
+                          const size_t length = 0) const {
     const json req = getAccountInfoRequest(account, encoding, offset, length);
     cpr::Response r =
         cpr::Post(cpr::Url{rpc_url_}, cpr::Body{req.dump()},

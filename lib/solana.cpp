@@ -111,7 +111,8 @@ uint64_t Connection::getBlockHeight(const std::string &commitment) const {
   return blockHeight;
 }
 json Connection::getSignatureStatuses(
-    const std::vector<std::string> &signatures, bool searchTransactionHistory) const {
+    const std::vector<std::string> &signatures,
+    bool searchTransactionHistory) const {
   const json params = {
       signatures, {{"searchTransactionHistory", searchTransactionHistory}}};
 
