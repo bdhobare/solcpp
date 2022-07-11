@@ -28,8 +28,8 @@ int main() {
 
     const std::string encoded = res["result"]["value"]["data"][0];
     const std::string decoded = solana::b64decode(encoded);
-    const mango_v3::MangoGroup *group =
-        reinterpret_cast<const mango_v3::MangoGroup *>(decoded.data());
+    const mango_v3::MangoGroupInfo *group =
+        reinterpret_cast<const mango_v3::MangoGroupInfo *>(decoded.data());
     spdlog::info("DEC:");
     spdlog::info("numOracles: {}", group->numOracles);
 

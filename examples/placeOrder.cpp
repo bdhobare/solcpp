@@ -7,7 +7,7 @@ int main() {
   const auto &config = mango_v3::DEVNET;
   auto connection = solana::rpc::Connection(config.endpoint);
   const auto group =
-      connection.getAccountInfo<mango_v3::MangoGroup>(config.group);
+      connection.getAccountInfo<mango_v3::MangoGroupInfo>(config.group);
 
   const auto symbolIt =
       std::find(config.symbols.begin(), config.symbols.end(), "BTC");

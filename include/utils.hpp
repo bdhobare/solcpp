@@ -36,7 +36,7 @@ auto getQuotePosition(const PerpAccountInfo& accountInfo,
  * @return
  * <spotAssetWeight, spotLiabWeight,perpAssetWeight, perpLiabWeight>
  */
-auto getMangoGroupWeights(const MangoGroup& mangoGroup, uint64_t marketIndex,
+auto getMangoGroupWeights(const MangoGroupInfo& mangoGroup, uint64_t marketIndex,
                           HealthType healthType = HealthType::Unknown) {
   if (healthType == HealthType::Maint) {
     return std::make_tuple(mangoGroup.spotMarkets[marketIndex].maintAssetWeight,
@@ -108,7 +108,7 @@ auto getPerpAccountLiabsVal(const PerpAccountInfo& perpAccountInfo,
  * If it's not QUOTE_INDEX and there is an oracle for this index but no
  * SPL-Token, this will default to 6 Otherwise throw error
  */
-uint8_t getMangoGroupTokenDecimals(const MangoGroup& mangoGroup,
+uint8_t getMangoGroupTokenDecimals(const MangoGroupInfo& mangoGroup,
                                    uint64_t tokenIndex) {
   const auto tokenInfo = mangoGroup.tokens[tokenIndex];
   if (tokenInfo.decimals == 0) {
@@ -122,7 +122,7 @@ uint8_t getMangoGroupTokenDecimals(const MangoGroup& mangoGroup,
     return tokenInfo.decimals;
   }
 }
-i80f48 getMangoGroupPrice(const MangoGroup& mangoGroup, uint64_t tokenIndex,
+i80f48 getMangoGroupPrice(const MangoGroupInfo& mangoGroup, uint64_t tokenIndex,
                           const MangoCache& mangoCache) {
   if (tokenIndex == QUOTE_INDEX) {
     return 1L;

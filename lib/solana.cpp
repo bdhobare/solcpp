@@ -20,7 +20,7 @@ Connection::Connection(const std::string &rpc_url,
 json Connection::getAccountInfoRequest(const std::string &account,
                                        const std::string &encoding,
                                        const size_t offset,
-                                       const size_t length) {
+                                       const size_t length) const {
   json params = {account};
   json options = {{"encoding", encoding}};
   if (offset && length) {
@@ -33,7 +33,7 @@ json Connection::getAccountInfoRequest(const std::string &account,
 }
 json Connection::getMultipleAccountsRequest(
     const std::vector<std::string> &accounts, const std::string &encoding,
-    const size_t offset, const size_t length) {
+    const size_t offset, const size_t length) const {
   json pubKeys = json::array();
   for (auto &account : accounts) {
     pubKeys.emplace_back(account);
@@ -50,7 +50,7 @@ json Connection::getMultipleAccountsRequest(
   return jsonRequest("getMultipleAccounts", params);
 }
 json Connection::getBlockhashRequest(const std::string &commitment,
-                                     const std::string &method) {
+                                     const std::string &method) const {
   const json params = {{{"commitment", commitment}}};
 
   return jsonRequest(method, params);
@@ -83,7 +83,7 @@ PublicKey Connection::getRecentBlockhash_DEPRECATED(
   const std::string encoded = res["result"]["value"]["blockhash"];
   return PublicKey::fromBase58(encoded);
 }
-Blockhash Connection::getLatestBlockhash(const std::string &commitment) {
+Blockhash Connection::getLatestBlockhash(const std::string &commitment) const {
   const json req = getBlockhashRequest(commitment, "getLatestBlockhash");
   cpr::Response r =
       cpr::Post(cpr::Url{rpc_url_}, cpr::Body{req.dump()},
@@ -98,7 +98,7 @@ Blockhash Connection::getLatestBlockhash(const std::string &commitment) {
   return {PublicKey::fromBase58(encoded), lastValidBlockHeight};
 }
 
-uint64_t Connection::getBlockHeight(const std::string &commitment) {
+uint64_t Connection::getBlockHeight(const std::string &commitment) const {
   const json req = getBlockhashRequest(commitment, "getBlockHeight");
   cpr::Response r =
       cpr::Post(cpr::Url{rpc_url_}, cpr::Body{req.dump()},
@@ -111,7 +111,7 @@ uint64_t Connection::getBlockHeight(const std::string &commitment) {
   return blockHeight;
 }
 json Connection::getSignatureStatuses(
-    const std::vector<std::string> &signatures, bool searchTransactionHistory) {
+    const std::vector<std::string> &signatures, bool searchTransactionHistory) const {
   const json params = {
       signatures, {{"searchTransactionHistory", searchTransactionHistory}}};
 

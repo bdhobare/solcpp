@@ -142,7 +142,7 @@ TEST_CASE("Empty MangoAccount") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/empty";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -171,7 +171,7 @@ TEST_CASE("1deposit") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/1deposit";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -200,7 +200,7 @@ TEST_CASE("account1") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account1";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -252,7 +252,7 @@ TEST_CASE("account2") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account2";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -299,7 +299,7 @@ TEST_CASE("account3") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account3";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -327,7 +327,7 @@ TEST_CASE("account4") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account4";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -356,7 +356,7 @@ TEST_CASE("account5") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account5";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -416,7 +416,7 @@ TEST_CASE("account6") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account6";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -476,7 +476,7 @@ TEST_CASE("account7") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account7";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -520,7 +520,7 @@ TEST_CASE("account8") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account8";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);
@@ -564,7 +564,7 @@ TEST_CASE("account9") {
   std::string resources_dir = FIXTURES_DIR;
   auto path = resources_dir + "/mango_v3/account9";
   auto mangoGroup =
-      solana::rpc::fromFile<mango_v3::MangoGroup>(path + "/group.json");
+      solana::rpc::fromFile<mango_v3::MangoGroupInfo>(path + "/group.json");
   auto accountInfo =
       solana::rpc::fromFile<mango_v3::MangoAccountInfo>(path + "/account.json");
   auto mangoAccount = mango_v3::MangoAccount(accountInfo);

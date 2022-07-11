@@ -9,7 +9,6 @@
 #include "solana.hpp"
 
 namespace mango_v3 {
-using json = nlohmann::json;
 
 const int MAX_TOKENS = 16;
 const int MAX_PAIRS = 15;
@@ -19,6 +18,7 @@ const int QUOTE_INDEX = 15;
 const int EVENT_SIZE = 200;
 const int EVENT_QUEUE_SIZE = 256;
 const int MAXIMUM_NUMBER_OF_BLOCKS_FOR_TRANSACTION = 152;
+const int MAX_NODE_BANKS = 8;
 
 struct Config {
   std::string endpoint;
@@ -85,7 +85,7 @@ struct PerpMarketInfo {
   int64_t quoteLotSize;
 };
 
-struct MangoGroup {
+struct MangoGroupInfo {
   MetaData metaData;
   uint64_t numOracles;
   TokenInfo tokens[MAX_TOKENS];
@@ -199,6 +199,20 @@ struct EventQueueHeader {
   uint64_t seqNum;
 };
 
+/// This is the root bank for one token's lending and borrowing info
+struct RootBankInfo {
+  MetaData meta_data;
+  i80f48 optimal_util;
+  i80f48 optimal_rate;
+  i80f48 max_rate;
+  size_t num_node_banks;
+  solana::PublicKey node_banks[MAX_NODE_BANKS];
+  i80f48 deposit_index;
+  i80f48 borrow_index;
+  i80f48 last_updated;
+  uint8_t padding[64]; /// used for future expansions
+};
+
 enum EventType : uint8_t { Fill, Out, Liquidate };
 
 struct AnyEvent {
@@ -268,7 +282,7 @@ namespace ix {
 template <typename T>
 std::vector<uint8_t> toBytes(const T& ref) {
   const auto bytePtr = (uint8_t*)&ref;
-  return std::vector<uint8_t>(bytePtr, bytePtr + sizeof(T));
+  return {bytePtr, bytePtr + sizeof(T)};
 }
 
 std::pair<int64_t, int64_t> uiToNativePriceQuantity(double price,
@@ -276,14 +290,14 @@ std::pair<int64_t, int64_t> uiToNativePriceQuantity(double price,
                                                     const Config& config,
                                                     const int marketIndex,
                                                     const PerpMarket& market) {
-  const int64_t baseUnit = pow(10LL, config.decimals[marketIndex]);
-  const int64_t quoteUnit = pow(10LL, config.decimals[QUOTE_INDEX]);
-  const auto nativePrice = ((int64_t)(price * quoteUnit)) * market.baseLotSize /
-                           (market.quoteLotSize * baseUnit);
+  const auto baseUnit = pow(10LL, config.decimals[marketIndex]);
+  const auto quoteUnit = pow(10LL, config.decimals[QUOTE_INDEX]);
+  const auto nativePrice = (price * quoteUnit) * (double)market.baseLotSize /
+                           ((double)market.quoteLotSize * baseUnit);
   const auto nativeQuantity =
       ((int64_t)(quantity * baseUnit)) / market.baseLotSize;
-  return std::pair<int64_t, int64_t>(nativePrice, nativeQuantity);
-};
+  return {nativePrice, nativeQuantity};
+}
 
 enum OrderType : uint8_t {
   Limit = 0,
@@ -308,7 +322,7 @@ solana::Instruction placePerpOrderInstruction(
     const PlacePerpOrder& ixData, const solana::PublicKey& ownerPk,
     const solana::PublicKey& accountPk, const solana::PublicKey& marketPk,
     const PerpMarket& market, const solana::PublicKey& groupPk,
-    const MangoGroup& group, const solana::PublicKey& programPk) {
+    const MangoGroupInfo& group, const solana::PublicKey& programPk) {
   std::vector<solana::AccountMeta> accs = {
       {groupPk, false, false},    {accountPk, false, true},
       {ownerPk, true, false},     {group.mangoCache, false, false},
@@ -339,7 +353,7 @@ solana::Instruction cancelAllPerpOrdersInstruction(
       {market.bids, false, true}, {market.asks, false, true},
   };
   return {programPk, accs, toBytes(ixData)};
-};
+}
 }  // namespace ix
 
 #pragma pack(pop)
